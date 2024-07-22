@@ -1,0 +1,60 @@
+<mat-card appearance="outlined">
+
+  <mat-card-content>
+    <mat-toolbar  color="primary">
+      <span>Cursos disponiveis</span>
+      <span class="example-spacer"></span>
+      <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+        <mat-icon>add</mat-icon>
+      </button>
+      <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+        <mat-icon>share</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+      <!-- Position Column -->
+      <ng-container matColumnDef="position">
+        <th mat-header-cell *matHeaderCellDef> No. </th>
+        <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <!-- Category Column -->
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef> Category </th>
+        <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+      </ng-container>
+
+      <!-- Duration Column -->
+      <ng-container matColumnDef="duration">
+        <th mat-header-cell *matHeaderCellDef> Duration </th>
+        <td mat-cell *matCellDef="let element"> {{element.duration}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+  </mat-card-content>
+</mat-card>
+<img mat-card-image [src]="githubImage" alt="Photo of a Shiba Inu">
+<div *ngIf="isLoading" class="spinner">
+  <p>Carregando...</p>
+</div>
+<div *ngIf="!isLoading">
+  <img mat-card-image [src]="dogImage" alt="Photo of a Shiba Inu">
+  <button (click)="loadRandomDogImage()" mat-button class="example-icon" aria-label="Example icon-button with share icon">
+    Recarregar foto
+  </button>
+</div>
+
+
+
+
