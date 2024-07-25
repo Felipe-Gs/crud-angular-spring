@@ -2,6 +2,7 @@ import { CursosService } from './../services/cursos.service';
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { ICursos } from '../../app.component';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-cursos',
@@ -11,53 +12,32 @@ import { ICursos } from '../../app.component';
 export class CursosComponent implements OnInit {
   displayedColumns: string[] = ['position', 'name', 'category', 'duration'];
   ELEMENT_DATA: ICursos[] = [];
-  dataSource = new MatTableDataSource<ICursos>(this.ELEMENT_DATA);
-  mensagem: string = '';
-  dogImage: string = '';
-  githubImage: string = '';
+  dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
   isLoading: boolean = false;
 
-  constructor(private cursosService: CursosService) {}
+  constructor(
+    private cursosService: CursosService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
-    this.mensagem = this.cursosService.getMensagem();
-    this.getCursos();
-    this.loadRandomDogImage();
-    this.getDataGithub();
+    // this.getfelipe();
   }
 
-  getCursos() {
-    this.ELEMENT_DATA = this.cursosService.getCursos();
-    this.dataSource.data = this.ELEMENT_DATA;
-  }
-
-  loadRandomDogImage() {
-    this.isLoading = true;
-    this.cursosService.getRequisicao().subscribe(
+  getfelipe() {
+    this.cursosService.getFelipe().subscribe(
       (data) => {
-        this.dogImage = data.message;
         console.log(data);
-        console.log(data.status);
-        console.log('Tudo certo com a api');
-        this.isLoading = false;
+        this.dataSource = data;
       },
-      (error) => {
-        console.log(error.message);
-        console.log(error.status);
-        this.isLoading = false;
+      (err) => {
+        console.log('deu erro' + err);
       }
     );
   }
 
-  getDataGithub() {
-    this.cursosService.getDataGithub().subscribe(
-      (data) => {
-        console.log(data);
-        this.githubImage = data.avatar_url;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+  addNew() {
+    this.router.navigate(['new'], { relativeTo: this.activatedRoute });
   }
 }
